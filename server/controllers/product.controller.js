@@ -26,8 +26,22 @@ const getProduct = async (req, res) => {
     const products = await Product.find({ status: "active" });
 
     res.status(200).json({
-      status: "Product found successfully",
+      status: "Products found successfully",
       data: products,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findOne({ _id: id });
+
+    res.status(200).json({
+      status: "Product found successfully",
+      data: product,
     });
   } catch (error) {
     console.log(error);
@@ -73,7 +87,7 @@ const deleteProduct = async (req, res) => {
       });
     }
 
-    product.status = 'inactive'
+    product.status = "inactive";
 
     await product.save();
 
@@ -85,4 +99,10 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-module.exports = { createProduct, getProduct, updateProduct, deleteProduct };
+module.exports = {
+  createProduct,
+  getProduct,
+  updateProduct,
+  deleteProduct,
+  getProductById,
+};

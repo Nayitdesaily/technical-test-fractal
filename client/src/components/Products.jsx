@@ -29,9 +29,9 @@ export default function Products() {
           </tr>
         </thead>
         <tbody className="text-center border-[gray] border-[1px]">
-          {products.map((product) => (
+          {products.map((product, index) => (
             <tr key={product._id}>
-              <td>{product._id}</td>
+              <td>{index + 1}</td>
               <td>{product.name}</td>
               <td> {product.category} </td>
               <td> {product.unit_price} </td>

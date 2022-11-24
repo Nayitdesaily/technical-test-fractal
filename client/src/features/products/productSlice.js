@@ -1,25 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from 'axios'
-
-
-let initialState = []
-
-await axios.get('http://localhost:4000/products')
-.then(res => {
-    initialState = res.data.data
-})
-
-console.log(initialState)
+import axios from "axios";
 
 export const productSlice = createSlice({
-    name: "products",
-    initialState: initialState,
-    reducers: {
-      
+  name: "products",
+  initialState: [],
+  reducers: {
+    setProduct: (state, action) => {
+      const product = action.payload;
+      return product;
     },
-  });
-  
-  export default productSlice.reducer;
-  
-  export const {  } = productSlice.actions;
-  
+  },
+});
+
+export const getProductsThunk = () => dispatch => {
+    return axios.get('http://localhost:4000/products')
+    .then(res => dispatch(setProduct(res.data.data)))
+}
+
+export default productSlice.reducer;
+
+export const { setProduct } = productSlice.actions;

@@ -1,22 +1,52 @@
 import { Table, Button } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import React, { Suspense, lazy, useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { store } from "../app/store";
+import { getOrderThunk } from "../features/orders/orderSlice";
 
-export default function Orders({ selectOrder }) {
+export default function Orders() {
+  const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders);
+
+  useEffect(() => {
+    dispatch(getOrderThunk());
+  }, [orders]);
+
+  const openModal = (order) => {
+    const Modal = lazy(() => import("./OrderModal"));
+    const modalDiv = document.createElement("div");
+    modalDiv.id = "order-modal";
+
+    document.body.appendChild(modalDiv);
+    const root = createRoot(modalDiv);
+
+    root.render(
+      <Provider store={store}>
+        <Suspense fallback={<div>...Loading</div>}>
+          <Modal root={root} order={order} />
+        </Suspense>
+      </Provider>
+    );
+  };
 
   return (
     <div
       className="w-full h-[60vh] flex flex-col items-center 
-    py-6 justify-start gap-2 border-2 border-[black] space-y-6"
+    py-6 justify-start gap-2 space-y-6"
     >
       <h4 className="text-2xl font-medium">Orders</h4>
+
       <Button
+        onClick={() => {
+          openModal();
+        }}
         className="bg-slate-600 px-6 py-2 rounded-lg text-[white] border-2 border-[bg-slate-600] font-medium ml-[65%]
-      hover:bg-white hover:border-2 hover:border-[black] hover:text-[black]"
-      >
+        hover:bg-white hover:border-2 hover:border-[black] hover:text-[black]">
         Create Order
       </Button>
+
       <Table striped bordered hover className="w-[80%]">
         <thead className="bg-blue-300 border-[gray] border-[1px]">
           <tr>
@@ -29,24 +59,25 @@ export default function Orders({ selectOrder }) {
           </tr>
         </thead>
         <tbody className="text-center border-[gray] border-[1px]">
-          {orders.map((order) => (
+          {orders.map((order, index) => (
             <tr key={order._id}>
-              <td>{order._id}</td>
+              <td>{index + 1}</td>
               <td>{order.customer}</td>
               <td>{order.status}</td>
-              <td>{order.date}</td>
+              <td>{order.date.slice(0, 10)}</td>
               <td>{order.total_amount}</td>
-              <td>
-                <button className="font-normal hover:font-semibold">
+              <td className="space-x-2">
+                <button
+                  onClick={() => {
+                    openModal(order);
+                  }}
+                  className="font-semibold hover:bg-[white] hover:border-[black] 
+                border-[1px] py-2 bg-red-400 px-2 rounded-lg">
                   Edit
                 </button>
-
                 <button
-                  className="font-normal hover:font-semibold"
-                  onClick={() => {
-                    selectOrder(order);
-                  }}
-                >
+                  className="font-semibold hover:bg-[white] hover:border-[black] border-[1px] 
+                  py-2 bg-red-400 px-2 rounded-lg">
                   <Link to={`/orders/${order._id}`}>Details</Link>
                 </button>
               </td>

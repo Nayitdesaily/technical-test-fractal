@@ -5,7 +5,8 @@ const orderItemSchema = new Schema({
     quantity: Number,
     cost: Number,
     orderId: String,
-    productId: String
+    productId: String,
+    status: {type:String, default: 'active'}
 })
 
 const OrderItem = mongoose.model('OrderItem', orderItemSchema)

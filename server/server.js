@@ -4,7 +4,7 @@ const { app } = require("./app");
 
 dotenv.config({ path: "./config.env" });
 
-mongoose.connect(process.env.URI).catch((error) => handleError(error));
+mongoose.connect(process.env.URI).catch((error) => console.log(error));
 
 const db = mongoose.connection;
 
@@ -15,7 +15,7 @@ const startServer = () => {
     });
 
     db.on("error", (err) => {
-      logError(err);
+      console.log(err);
     });
 
     const PORT = 4000;
