@@ -25,7 +25,7 @@ export default function OrderDetails() {
   }, [order])
 
   
-  const openModal = () => {
+  const openModal = (item, product) => {
     const Modal = lazy(() => import("./ItemModal"));
     const modalDiv = document.createElement("div");
     modalDiv.id = "item-modal";
@@ -36,7 +36,7 @@ export default function OrderDetails() {
     root.render(
       <Provider store={store}>
         <Suspense fallback={<div>...Loading</div>}>
-          <Modal root={root} id={id} />
+          <Modal root={root} id={id} item ={item} product={product}/>
         </Suspense>
       </Provider>
     );
@@ -45,10 +45,7 @@ export default function OrderDetails() {
 
 
   return (
-    <div
-      className="w-full h-[60vh] flex flex-col items-center 
-    py-6 justify-start gap-2 space-y-6"
-    >
+    <div className="w-full h-[60vh] flex flex-col items-center py-6 justify-start gap-2 space-y-6">
       <h4 className="text-2xl font-medium">Order Details</h4>
       <div>
         <h6>
@@ -66,9 +63,8 @@ export default function OrderDetails() {
       </div>
       <Link to={"/orders"}>
         <Button
-          className="bg-slate-600 px-6 py-2 rounded-lg text-[white] border-2 border-[bg-slate-600] font-medium ml-[65%]
-      hover:bg-white hover:border-2 hover:border-[black] hover:text-[black]"
-        >
+          className="bg-slate-600 px-6 py-2 rounded-lg text-[white] border-2 border-[bg-slate-600] 
+          font-medium ml-[65%] hover:bg-white hover:border-2 hover:border-[black] hover:text-[black]">
           Back
         </Button>
       </Link>
@@ -85,15 +81,14 @@ export default function OrderDetails() {
         </thead>
         <tbody className="text-center border-[gray] border-[1px]">
           {order?.order_items?.map((item, index) => (
-            <Item item={item} index={index} key={item._id} />
+            <Item item={item} index={index} key={item._id} openItemModal={openModal}/>
           ))}
         </tbody>
       </Table>
 
       <button
         onClick={openModal}
-        className="bg-yellow-300 font-semibold py-2 px-4 rounded-lg hover:text-[white] "
-      >
+        className="bg-yellow-300 font-semibold py-2 px-4 rounded-lg hover:text-[white]">
         Add Item+
       </button>
 

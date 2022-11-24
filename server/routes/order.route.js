@@ -12,6 +12,7 @@ const {
   updateCompletedOrder,
   updateOrder,
   deleteOrderItem,
+  updateOrderItem,
 } = require("../controllers/order.controller");
 
 orderRouters.post("/", createOrder);
@@ -20,10 +21,12 @@ orderRouters.get("/:id", getOrderById);
 
 orderRouters.post("/order-item/:id", createOrderItem);
 orderRouters.delete("/order-item/:id", deleteOrderItem);
+orderRouters.patch("/order-item/:id", updateOrderItem);
 
 orderRouters.patch("/completed/:id", updateCompletedOrder);
 orderRouters.patch("/:id", updateOrder);
 
 orderRouters.delete("/:id", deleteOrder);
+
 
 module.exports = { orderRouters };

@@ -59,6 +59,22 @@ export const addItemInOrderThunk = (orderId, newItem) => (dispatch) => {
   });
 };
 
+export const deleteItemInOrderThunk = (itemId) => (dispatch) => {
+  return axios.delete(`http://localhost:4000/orders/order-item/${itemId}`).then(() => {
+    axios
+      .get("http://localhost:4000/orders")
+      .then((res) => dispatch(setOrder(res.data.data)));
+  });
+};
+
+export const updateItemInOrderThunk = (itemId, newItem) => (dispatch) => {
+  return axios.patch(`http://localhost:4000/orders/order-item/${itemId}`, newItem).then(() => {
+    axios
+      .get("http://localhost:4000/orders")
+      .then((res) => dispatch(setOrder(res.data.data)));
+  });
+};
+
 export default orderSlice.reducer;
 
 export const { setOrder } = orderSlice.actions;

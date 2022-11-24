@@ -33,17 +33,13 @@ export default function Orders() {
 
   return (
     <div
-      className="w-full h-[60vh] flex flex-col items-center 
-    py-6 justify-start gap-2 space-y-6"
-    >
+      className="w-full h-[60vh] flex flex-col items-center py-6 justify-start gap-2 space-y-6">
       <h4 className="text-2xl font-medium">Orders</h4>
 
       <Button
-        onClick={() => {
-          openModal();
-        }}
-        className="bg-slate-600 px-6 py-2 rounded-lg text-[white] border-2 border-[bg-slate-600] font-medium ml-[65%]
-        hover:bg-white hover:border-2 hover:border-[black] hover:text-[black]">
+        onClick={() => {openModal()}}
+        className="bg-slate-600 px-6 py-2 rounded-lg text-[white] border-2 border-[bg-slate-600] 
+        font-medium ml-[65%] hover:bg-white hover:border-2 hover:border-[black] hover:text-[black]">
         Create Order
       </Button>
 
@@ -68,9 +64,7 @@ export default function Orders() {
               <td>{order.total_amount}</td>
               <td className="space-x-2">
                 <button
-                  onClick={() => {
-                    openModal(order);
-                  }}
+                  onClick={() => {openModal(order)}}
                   className="font-semibold hover:bg-[white] hover:border-[black] 
                 border-[1px] py-2 bg-red-400 px-2 rounded-lg">
                   Edit
